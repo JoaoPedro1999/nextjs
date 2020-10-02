@@ -1,7 +1,9 @@
 {
   "categories": [
     { "id": "camisetas", "title": "Camisetas" },
-    { "id": "calcas", "title": "Calças" }
+    { "id": "calcas", "title": "Calças" },
+    { "id": "meias", "title": "Meias" },
+    { "id": "tenis", "title": "Tenis" }
   ],
   "products": [
     {
@@ -31,6 +33,20 @@
       "price": 109.9,
       "category_id": "calcas",
       "slug": "calca-azul-react"
+    },
+    {
+      "id": 5,
+      "title": "Meia roxa da Rocketseat",
+      "price": 10.9,
+      "category_id": "meias",
+      "slug": "meia-roxa-rocketseat"
+    },
+    {
+      "id": 5,
+      "title": "Tenis azul da Rocketseat",
+      "price": 10.9,
+      "category_id": "tenis",
+      "slug": "tenis-azul-rocketseat"
     }
   ],
   "recommended": [

@@ -1,25 +1,29 @@
 import { GetServerSideProps } from 'next';
-import React, { useState, useEffect } from 'react';
 
-import { Title } from '../styles/pages/Home';
+import Link from 'next/link';
+import PrismicDOM from 'prismic-dom';
+import Prismic from 'prismic-javascript';
+import { Document } from 'prismic-javascript/types/documents';
 
-interface IProduct {
-  id: string;
-  title: string;
-}
+import SEO from '@/components/SEO';
+import { client } from '@/lib/prismic';
+import { Title } from '@/styles/pages/Home';
 
 interface HomeProps {
-  recommendedProducts: IProduct[];
+  posts: Document[];
 }
 
-export default function Home({ recommendedProducts }: HomeProps) {
+export default function Home({ posts }: HomeProps) {
   return (
     <div>
-      <Title>Produtos</Title>
+      <SEO title="Home" shouldExcludeTitleSuffix image="boost.png" />
+      <Title>Posts</Title>
 
       <ul>
-        {recommendedProducts.map((recommendedProduct) => (
-          <li key={recommendedProduct.id}>{recommendedProduct.title}</li>
+        {posts.map((post) => (
+          <Link href={`posts/${post.uid}`}>
+            <a key={post.uid}>{PrismicDOM.RichText.asText(post.data.title)}</a>
+          </Link>
         ))}
       </ul>
     </div>
@@ -27,13 +31,13 @@ export default function Home({ recommendedProducts }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  const response = await fetch('http://localhost:3333/recommended');
-
-  const recommendedProducts = await response.json();
+  const posts = await client().query([
+    Prismic.Predicates.at('document.type', 'post'),
+  ]);
 
   return {
     props: {
-      recommendedProducts,
+      posts: posts.results,
     },
   };
 };
